@@ -18,7 +18,7 @@ let users: User[] = [
 ];
 
 export const userRouter = createRouter()
-  .query("getUser", {
+  .query("byId", {
     input: z.number(),
     output: UserSchema,
     resolve({ input }) {
@@ -32,13 +32,13 @@ export const userRouter = createRouter()
       return user;
     },
   })
-  .query("getUsers", {
+  .query("all", {
     output: z.array(UserSchema),
     resolve() {
       return users;
     },
   })
-  .mutation("createUser", {
+  .mutation("create", {
     input: z.object({ name: z.string().min(2) }),
     resolve({ input, ctx }) {
       console.log("ctx", ctx);
@@ -48,7 +48,7 @@ export const userRouter = createRouter()
       });
     },
   })
-  .mutation("deleteUser", {
+  .mutation("delete", {
     input: z.object({ id: z.number() }),
     output: z.string(),
     async resolve(req) {
